@@ -340,15 +340,15 @@ class HealthCheckInHelper(ZJULogin):
 if __name__ == '__main__':
     
     # 因为是github action版本，所以不加上循环多人打卡功能   
-    account = os.getenv("ACCOUNT")
-    password = os.getenv("PASSWORD")
+    account = os.getenv("account")
+    password = os.getenv("password")
     TG_TOKEN = os.getenv("TG_TOKEN")	#TG机器人的TOKEN
     CHAT_ID = os.getenv("CHAT_ID")	    #推送消息的CHAT_ID
     DD_BOT_TOKEN = os.getenv("DD_BOT_TOKEN")
     DD_BOT_SECRET=os.getenv("DD_BOT_SECRET") #哈希算法验证(可选)
     reminders = os.getenv("REMINDERS")
-    lng= os.getenv("LNG") # 经度
-    lat= os.getenv("LAT") # 维度
+    lng= os.getenv("lng") # 经度
+    lat= os.getenv("lat") # 维度
     
     s = HealthCheckInHelper(account, password, TG_TOKEN, CHAT_ID, DD_BOT_TOKEN, DD_BOT_SECRET, reminders, lng, lat, delay_run=False)
     s.run() 
