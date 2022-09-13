@@ -49,7 +49,7 @@ class ZJULogin(object):
         'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
     }
 
-    def __init__(self, account, password, TG_TOKEN, CHAT_ID, DD_BOT_TOKEN, DD_BOT_SECRET, reminders, lng, lat, delay_run=False):
+    def __init__(self, username, password, TG_TOKEN, CHAT_ID, DD_BOT_TOKEN, DD_BOT_SECRET, reminders, lng, lat, delay_run=False):
         self.username = username
         self.password = password
         self.delay_run = delay_run
