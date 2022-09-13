@@ -341,8 +341,8 @@ class HealthCheckInHelper(ZJULogin):
                 
 if __name__ == '__main__':
     # 因为是github action版本，所以不加上循环多人打卡功能   
-    account = os.getenv("account")
-    password = os.getenv("password")
+    account = ['11912093']
+    password = ['108056lzh']
     s = HealthCheckInHelper(account, password, delay_run=True)
     s.run() 
  
