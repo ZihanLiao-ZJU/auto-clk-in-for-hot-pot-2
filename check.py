@@ -327,7 +327,7 @@ class HealthCheckInHelper(ZJULogin):
             # 拿取eai-sess的cookies信息
             self.sess.get(self.REDIRECT_URL)
             # location = get_ip_location()
-            print(location)
+            # print(location)
             location = {'info': 'LOCATE_SUCCESS', 'status': 1, 'lng': self.lng, 'lat': self.lat}
             geo_info = self.get_geo_info(location)
             print(geo_info)
