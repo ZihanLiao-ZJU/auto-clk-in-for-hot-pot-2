@@ -64,8 +64,8 @@ class ZJULogin(object):
         self.DD_BOT_SECRET=os.getenv("DD_BOT_SECRET") #哈希算法验证(可选)
         self.reminders = os.getenv("REMINDERS")
 
-        self.lng= os.getenv("lng")
-        self.lat= os.getenv("lat")
+        self.lng= os.getenv("LNG")
+        self.lat= os.getenv("LAT")
 
     def login(self):
         """Login to ZJU platform"""
