@@ -1,3 +1,7 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# __author__ = "zihan"
+# Date: 2022/9/14
 import requests
 import re
 import json
@@ -34,7 +38,7 @@ def take_out_json(content):
 
 def get_date():
     """Get current date"""
-    today = datetime.date.today() 
+    today = datetime.date.today()
     return "%4d%02d%02d" % (today.year, today.month, today.day)
 
 
@@ -49,9 +53,9 @@ class ZJULogin(object):
         'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
     }
 
-    def __init__(self, username, password, delay_run):
-        self.username = username
-        self.password = password
+    def __init__(self, delay_run):
+        self.username = os.getenv("account")
+        self.password = os.getenv("password")
         self.delay_run = delay_run
         self.TG_TOKEN = os.getenv("TG_TOKEN")	#TG机器人的TOKEN
         self.CHAT_ID = os.getenv("CHAT_ID")	    #推送消息的CHAT_ID
@@ -189,11 +193,11 @@ class HealthCheckInHelper(ZJULogin):
             new_uid = new_info_tmp['uid']
             # 拼凑geo信息
             lng, lat = address_component.get("streetNumber").get("location").split(",")
-            geo_api_info_dict = {"type": "complete", "info": "SUCCESS", "status": 1, 
-                                "position": {"Q": lat, "R": lng, "lng": lng, "lat": lat},
-                                "message": "Get geolocation success.Convert Success.Get address success.", "location_type": "ip",
-                                "accuracy": "null", "isConverted": "true", "addressComponent": address_component,
-                                "formattedAddress": formatted_address, "roads": [], "crosses": [], "pois": []}
+            geo_api_info_dict = {"type": "complete", "info": "SUCCESS", "status": 1,
+                                 "position": {"Q": lat, "R": lng, "lng": lng, "lat": lat},
+                                 "message": "Get geolocation success.Convert Success.Get address success.", "location_type": "ip",
+                                 "accuracy": "null", "isConverted": "true", "addressComponent": address_component,
+                                 "formattedAddress": formatted_address, "roads": [], "crosses": [], "pois": []}
             #print('打卡地点：', formatted_address)
             #拿到校验值
             verify_data = re.findall(r'"([a-z0-9]*?)": "([0-9]*?)","([a-z0-9]*?)":"([a-z0-9]*?)"',html)[0]
@@ -294,13 +298,13 @@ class HealthCheckInHelper(ZJULogin):
             }
             data.update(verify_code)
             response = self.sess.post('https://healthreport.zju.edu.cn/ncov/wap/default/save', data=data,
-                                    headers=self.headers)
+                                      headers=self.headers)
             return response.json()
 
     def Push(self,res):
         if res:
             if self.CHAT_ID and self.TG_TOKEN :
-                post_tg('浙江大学每日健康打卡 V3.1 '+ f" \n\n 签到结果:{res}", self.CHAT_ID, self.TG_TOKEN) 
+                post_tg('浙江大学每日健康打卡 V3.1 '+ f" \n\n 签到结果:{res}", self.CHAT_ID, self.TG_TOKEN)
             else:
                 print("telegram推送未配置,请自行查看签到结果")
             if self.DD_BOT_TOKEN:
@@ -309,7 +313,7 @@ class HealthCheckInHelper(ZJULogin):
             else:
                 print("钉钉推送未配置，请自行查看签到结果")
             print("推送完成！")
-        
+
     def run(self):
         print("正在为{}健康打卡".format(self.username))
         if self.delay_run:
@@ -331,13 +335,7 @@ class HealthCheckInHelper(ZJULogin):
             # reraise as KubeException, but log stacktrace.
             print("打卡失败,请检查github服务器网络状态")
             self.Push('打卡失败,请检查github服务器网络状态')
-                
+
 if __name__ == '__main__':
-    
-    # 因为是github action版本，所以不加上循环多人打卡功能   
-    account = os.getenv("account")
-    password = os.getenv("password")
-    
-    s = HealthCheckInHelper(account, password, delay_run=False)
-    s.run() 
- 
+    s = HealthCheckInHelper(delay_run=False)
+    s.run()
