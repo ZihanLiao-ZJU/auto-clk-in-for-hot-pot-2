@@ -49,17 +49,17 @@ class ZJULogin(object):
         'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
     }
 
-    def __init__(self, username, password, TG_TOKEN, CHAT_ID, DD_BOT_TOKEN, DD_BOT_SECRET, reminders, lng, lat, delay_run):
+    def __init__(self, username, password, delay_run):
         self.username = username
         self.password = password
         self.delay_run = delay_run
-        self.TG_TOKEN = TG_TOKEN	#TG机器人的TOKEN
-        self.CHAT_ID = CHAT_ID	    #推送消息的CHAT_ID
-        self.DD_BOT_TOKEN = DD_BOT_TOKEN
-        self.DD_BOT_SECRET= DD_BOT_SECRET #哈希算法验证(可选)
-        self.reminders = reminders
-        self.lng= lng
-        self.lat= lat
+        self.TG_TOKEN = os.getenv("TG_TOKEN")	#TG机器人的TOKEN
+        self.CHAT_ID = os.getenv("CHAT_ID")	    #推送消息的CHAT_ID
+        self.DD_BOT_TOKEN = os.getenv("DD_BOT_TOKEN")
+        self.DD_BOT_SECRET=os.getenv("DD_BOT_SECRET") #哈希算法验证(可选)
+        self.reminders = os.getenv("REMINDERS")
+        self.lng= os.getenv("lng") # 经度
+        self.lat= os.getenv("lat") # 维度
         self.sess = requests.Session()
         self.imgaddress = 'https://healthreport.zju.edu.cn/ncov/wap/default/code'
         self.BASE_URL = "https://healthreport.zju.edu.cn/ncov/wap/default/index"
@@ -337,14 +337,7 @@ if __name__ == '__main__':
     # 因为是github action版本，所以不加上循环多人打卡功能   
     account = os.getenv("account")
     password = os.getenv("password")
-    TG_TOKEN = os.getenv("TG_TOKEN")	#TG机器人的TOKEN
-    CHAT_ID = os.getenv("CHAT_ID")	    #推送消息的CHAT_ID
-    DD_BOT_TOKEN = os.getenv("DD_BOT_TOKEN")
-    DD_BOT_SECRET=os.getenv("DD_BOT_SECRET") #哈希算法验证(可选)
-    reminders = os.getenv("REMINDERS")
-    lng= os.getenv("lng") # 经度
-    lat= os.getenv("lat") # 维度
     
-    s = HealthCheckInHelper(account, password, TG_TOKEN, CHAT_ID, DD_BOT_TOKEN, DD_BOT_SECRET, reminders, lng, lat, delay_run=False)
+    s = HealthCheckInHelper(username, password, delay_run=False)
     s.run() 
  
