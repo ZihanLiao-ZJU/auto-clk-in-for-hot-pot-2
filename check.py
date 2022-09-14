@@ -338,6 +338,6 @@ if __name__ == '__main__':
     account = os.getenv("account")
     password = os.getenv("password")
     
-    s = HealthCheckInHelper(username, password, delay_run=False)
+    s = HealthCheckInHelper(account, password, delay_run=False)
     s.run() 
  
