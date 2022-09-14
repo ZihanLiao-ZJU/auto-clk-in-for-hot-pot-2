@@ -219,21 +219,19 @@ class HealthCheckInHelper(ZJULogin):
                 'jnjtfs': '',
                 'jnjtfs1': '',
                 'jnjtgjbc': '',
-                # 是否确认信息属实
-                'sfqrxxss': '1',
+                'sfqrxxss': '1', # 本人承诺：上述信息属实 (是:1,否:0)
                 'sfqtyyqjwdg': '',
                 'sffrqjwdg': '',
                 'sfhsjc': '',
                 'zgfx14rfh': '0',
                 'zgfx14rfhdd': '',
                 'sfyxjzxgym': '',
-                # 是否不宜接种人群
-                'sfbyjzrq': '0',
+                'sfbyjzrq': '0', # 是否不宜接种人群
                 'jzxgymqk': '0', # 这里是第三针相关参数[已删除]
-                'tw': '0',
+                'tw': '0', # 今日是否有发热症状（高于37.2 ℃）(是:1,否:0)
                 'sfcxtz': '0',
-                'sfjcbh': '0',
-                'sfcxzysx': '0',
+                'sfjcbh': '0', # 是否有与新冠疫情确诊人员或密接人员有接触的情况? (是:1,否:0)
+                'sfcxzysx': '0', # 今日是否有涉及涉疫情的管控措施 (是:1,否:0)
                 'jcjg': '',
                 'qksm': '',
                 'sfyyjc': '0',
@@ -245,15 +243,14 @@ class HealthCheckInHelper(ZJULogin):
                 # 浙江省 杭州市 西湖区
                 # '\u6D59\u6C5F\u7701 \u676D\u5DDE\u5E02 \u897F\u6E56\u533A'
                 'area': "{} {} {}".format(address_component.get("province"), address_component.get("city"),
-                                        address_component.get("district")),
+                                          address_component.get("district")),
                 # 浙江省
                 # '\u6D59\u6C5F\u7701'
                 'province': address_component.get("province"),
                 # 杭州市
                 # '\u676D\u5DDE\u5E02'
                 'city': address_component.get("city"),
-                # 是否在校：在校将'sfzx'改为1
-                'sfzx': '1', 
+                'sfzx': '1', # 今日是否在校 (在校:1,不在:0)
                 'sfjcwhry': '0',
                 'sfjchbry': '0',
                 'sfcyglq': '0',
@@ -261,41 +258,39 @@ class HealthCheckInHelper(ZJULogin):
                 'glksrq': '',
                 'jcbhlx': '',
                 'jcbhrq': '',
-                'bztcyy': '', 
+                'bztcyy': '',
                 'sftjhb': '',
                 'sftjwh': '0',
-                'sfjcqz': '', 
+                'sfjcqz': '',
                 'jcqzrq': '',
                 'jrsfqzys': '',
                 'jrsfqzfy': '',
                 'sfyqjzgc': '0',
-                # 是否申领杭州健康码
-                'sfsqhzjkk': '0',
-                # 杭州健康吗颜色，1:绿色 2:红色 3:黄色
-                'sqhzjkkys': '1',
+                'sfsqhzjkk': '0', # 是否申领杭州健康码
+                'sqhzjkkys': '1', # 今日申领健康码状态(绿色:1,红色:2,黄色:3,橙色:4,无:5)
                 'gwszgzcs': '',
                 'szgj': '',
                 'fxyy': '',
                 'jcjg': '',
                 # uid每个用户不一致
-                'uid': new_uid,     
+                'uid': new_uid,
                 # id每个用户不一致
                 'id': new_id,
                 # 日期
                 'date': get_date(),
                 'created': round(time.time()),
                 'szsqsfybl': '0',
-                'sfygtjzzfj': '',
+                'sfygtjzzfj': '0',
                 'gtjzzfjsj': '',
                 'gwszdd': '',
                 'szgjcs': '',
                 'ismoved': '0',
                 'zgfx14rfhsj':'',
-                'campus': '', # 紫金港校区 玉泉校区 西溪校区 华家池校区 之江校区 海宁校区 舟山校区 宁波校区 工程师学院 杭州国际科创中心 其他 /不在校即为空值
+                'campus': '海宁校区', # 所在校区(紫金港校区 玉泉校区 西溪校区 华家池校区 之江校区 海宁校区 舟山校区 宁波校区 工程师学院 杭州国际科创中心 其他)
                 # 👇-----2022.5.19日修改-----👇
                 'verifyCode': ''  ,
                 # 👆-----2022.5.19日修改-----👆
-                'internship': '1'
+                'internship': '1' # 今日是否进行实习或实践(校内实习:2,校外实习:3,否:1)
             }
             data.update(verify_code)
             response = self.sess.post('https://healthreport.zju.edu.cn/ncov/wap/default/save', data=data,
