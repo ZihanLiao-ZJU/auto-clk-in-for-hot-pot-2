@@ -28,8 +28,16 @@ jobs:
 
     - name: StartCheck
       env:
-       account: ${{ secrets.account }}
-       password: ${{ secrets.password }}
+       account0: ${{ secrets.account0 }}
+       password0: ${{ secrets.password0 }}
+       account1: ${{ secrets.account1 }}
+       password1: ${{ secrets.password1 }}
+       account2: ${{ secrets.account2 }}
+       password2: ${{ secrets.password2 }}
+       account3: ${{ secrets.account3 }}
+       password3: ${{ secrets.password3 }}
+       account4: ${{ secrets.account4 }}
+       password4: ${{ secrets.password4 }}
        TG_TOKEN: ${{ secrets.TG_TOKEN }}
        CHAT_ID: ${{ secrets.CHAT_ID }}
        lng: ${{ secrets.lng }}
