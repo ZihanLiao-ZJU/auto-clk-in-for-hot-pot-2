@@ -129,6 +129,7 @@ class HealthCheckInHelper(ZJULogin):
         # 获得id和uid参数
         time.sleep(3)
         res = self.sess.get(self.BASE_URL, headers=self.headers)
+        print(len(res.content))
         if len(res.content) == 0:
             print('网页获取失败，请检查网络并重试')
             self.Push('网页获取失败，请检查网络并重试')
