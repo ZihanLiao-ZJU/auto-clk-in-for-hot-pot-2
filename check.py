@@ -1,4 +1,4 @@
-# ! /usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # __author__ = "zihan"
 # Date: 2022/9/14
@@ -91,7 +91,7 @@ class ZJULogin(object):
         # check if login successfully
         if '用户名或密码错误' in res.content.decode():
             raise LoginError('登录失败，请核实账号密码重新登录')
-        print("统一认证平台登录成功~")
+        print("统一认证平台登录成功")
         return self.sess
 
     def _rsa_encrypt(self, password_str, e_str, M_str):
@@ -137,6 +137,7 @@ class HealthCheckInHelper(ZJULogin):
         html = res.content.decode()
         try:
             re.findall('温馨提示： 不外出、不聚集、不吃野味， 戴口罩、勤洗手、咳嗽有礼，开窗通风，发热就诊',html)[0]
+            print('打卡网页获取成功')
         except:
             print('打卡网页获取失败')
             self.Push('打卡网页获取失败')
@@ -250,11 +251,11 @@ class HealthCheckInHelper(ZJULogin):
     def Push(self,res):
         if res:
             if self.CHAT_ID and self.TG_TOKEN :
-                post_tg('浙江大学每日健康打卡 V3.1 '+ f" \n\n 签到结果:{res}", self.CHAT_ID, self.TG_TOKEN)
+                post_tg('浙江大学每日健康打卡'+ f" \n\n 签到结果:{res}", self.CHAT_ID, self.TG_TOKEN)
             else:
                 print("telegram推送未配置,请自行查看签到结果")
             if self.DD_BOT_TOKEN:
-                ding= dingpush('浙江大学每日健康打卡 V3.1 ', res,self.reminders,self.DD_BOT_TOKEN,self.DD_BOT_SECRET)
+                ding= dingpush('{}浙江大学每日健康打卡'.format(self.username), res,self.reminders,self.DD_BOT_TOKEN,self.DD_BOT_SECRET)
                 ding.SelectAndPush()
             else:
                 print("钉钉推送未配置，请自行查看签到结果")
