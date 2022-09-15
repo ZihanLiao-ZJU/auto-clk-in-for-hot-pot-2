@@ -54,8 +54,6 @@ class ZJULogin(object):
         self.username = os.getenv("account")
         self.password = os.getenv("password")
         self.delay_run = delay_run
-        self.TG_TOKEN = os.getenv("TG_TOKEN")	#TG机器人的TOKEN
-        self.CHAT_ID = os.getenv("CHAT_ID")	    #推送消息的CHAT_ID
         self.DD_BOT_TOKEN = os.getenv("DD_BOT_TOKEN")
         self.DD_BOT_SECRET=os.getenv("DD_BOT_SECRET") #哈希算法验证(可选)
         self.reminders = os.getenv("REMINDERS")
@@ -250,10 +248,6 @@ class HealthCheckInHelper(ZJULogin):
 
     def Push(self,res):
         if res:
-            if self.CHAT_ID and self.TG_TOKEN :
-                post_tg('浙江大学每日健康打卡'+ f" \n\n 签到结果:{res}", self.CHAT_ID, self.TG_TOKEN)
-            else:
-                print("telegram推送未配置,请自行查看签到结果")
             if self.DD_BOT_TOKEN:
                 ding= dingpush('{}浙江大学每日健康打卡'.format(self.username), res,self.reminders,self.DD_BOT_TOKEN,self.DD_BOT_SECRET)
                 ding.SelectAndPush()
