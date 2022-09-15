@@ -109,37 +109,6 @@ class HealthCheckInHelper(ZJULogin):
 
     REDIRECT_URL = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex%26from%3Dwap"
 
-    def get_ip_location(self):
-        headers = {
-            'authority': 'webapi.amap.com',
-            'pragma': 'no-cache',
-            'cache-control': 'no-cache',
-            'sec-ch-ua': '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
-            'sec-ch-ua-mobile': '?0',
-            'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
-            'accept': '*/*',
-            'sec-fetch-site': 'cross-site',
-            'sec-fetch-mode': 'no-cors',
-            'sec-fetch-dest': 'script',
-            'referer': 'https://healthreport.zju.edu.cn/',
-            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
-            'cookie': 'isg=BIaGbUMSG7BxFM4x941hm4D913wI58qhRFwZi3CvdKmEcyaN2nUJsfYKT6-_W8K5',
-        }
-
-        params = (
-            ('key', '729923f88542d91590470f613adb27b5'),
-            ('callback', 'jsonp_859544_'),
-            ('platform', 'JS'),
-            ('logversion', '2.0'),
-            ('appname', 'https://healthreport.zju.edu.cn/ncov/wap/default/index'),
-            ('csid', '17F714D6-756D-49E4-96F2-B31F04B14A5A'),
-            ('sdkversion', '1.4.16'),
-        )
-        response = self.sess.get(
-            'https://webapi.amap.com/maps/ipLocation?key=729923f88542d91590470f613adb27b5&callback=jsonp_859544_&platform=JS&logversion=2.0&appname=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fncov%2Fwap%2Fdefault%2Findex&csid=17F714D6-756D-49E4-96F2-B31F04B14A5A&sdkversion=1.4.16',
-            headers=headers, params=params)
-        return take_out_json(response.text)
-
     def get_geo_info(self, location: dict):
         params = (
             ('key', '729923f88542d91590470f613adb27b5'),
@@ -323,8 +292,6 @@ class HealthCheckInHelper(ZJULogin):
             self.login()
             # 拿取eai-sess的cookies信息
             self.sess.get(self.REDIRECT_URL)
-            # location = get_ip_location()
-            # print(location)
             location = {'info': 'LOCATE_SUCCESS', 'status': 1, 'lng': self.lng, 'lat': self.lat}
             geo_info = self.get_geo_info(location)
             print(geo_info)
