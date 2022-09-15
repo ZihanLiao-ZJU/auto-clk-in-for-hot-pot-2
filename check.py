@@ -50,15 +50,15 @@ class ZJULogin(object):
         sess: (requests.Session) 统一的session管理
     """
 
-    def __init__(self, delay_run):
-        self.username = os.getenv("account")
-        self.password = os.getenv("password")
+    def __init__(self,username,password,DD_BOT_TOKEN,DD_BOT_SECRET,reminders,lng,lat,delay_run):
+        self.username = username
+        self.password = password
+        self.DD_BOT_TOKEN = DD_BOT_TOKEN
+        self.DD_BOT_SECRET= DD_BOT_SECRET #哈希算法验证(可选)
+        self.reminders = reminders
+        self.lng= lng # 经度
+        self.lat= lat # 维度
         self.delay_run = delay_run
-        self.DD_BOT_TOKEN = os.getenv("DD_BOT_TOKEN")
-        self.DD_BOT_SECRET=os.getenv("DD_BOT_SECRET") #哈希算法验证(可选)
-        self.reminders = os.getenv("REMINDERS")
-        self.lng= os.getenv("lng") # 经度
-        self.lat= os.getenv("lat") # 维度
         self.sess = requests.Session()
         self.imgaddress = 'https://healthreport.zju.edu.cn/ncov/wap/default/code'
         self.BASE_URL = "https://healthreport.zju.edu.cn/ncov/wap/default/index"
@@ -129,7 +129,6 @@ class HealthCheckInHelper(ZJULogin):
         # 获得id和uid参数
         time.sleep(3)
         res = self.sess.get(self.BASE_URL, headers=self.headers)
-        print(len(res.content))
         if len(res.content) == 0:
             print('网页获取失败，请检查网络并重试')
             self.Push('网页获取失败，请检查网络并重试')
@@ -276,5 +275,13 @@ class HealthCheckInHelper(ZJULogin):
             self.Push('打卡失败,请检查github服务器网络状态')
 
 if __name__ == '__main__':
-    s = HealthCheckInHelper(delay_run=False)
-    s.run()
+    DD_BOT_TOKEN = os.getenv("DD_BOT_TOKEN")
+    DD_BOT_SECRET=os.getenv("DD_BOT_SECRET") #哈希算法验证(可选)
+    reminders = os.getenv("REMINDERS")
+    lng= os.getenv("lng") # 经度
+    lat= os.getenv("lat") # 维度
+    for iact in range(3):
+        username = os.getenv("account{}".format(iact))
+        password = os.getenv("password{}".format(iact))
+        s = HealthCheckInHelper(username,password,DD_BOT_TOKEN,DD_BOT_SECRET,reminders,lng,lat,delay_run=False)
+        s.run()
