@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # __author__ = "zihan"
 # Date: 2022/9/14
@@ -49,7 +49,7 @@ class ZJULogin(object):
         password: (str) 浙大统一认证平台密码
         sess: (requests.Session) 统一的session管理
     """
-    
+
     def __init__(self, delay_run):
         self.username = os.getenv("account")
         self.password = os.getenv("password")
@@ -69,7 +69,7 @@ class ZJULogin(object):
             'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
         }
         self.REDIRECT_URL = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex%26from%3Dwap"
-        
+
     def login(self):
         """Login to ZJU platform"""
         res = self.sess.get(self.LOGIN_URL)
@@ -136,19 +136,7 @@ class HealthCheckInHelper(ZJULogin):
             self.Push('网页获取失败，请检查网络并重试')
         html = res.content.decode()
         try:
-            done = re.findall('温馨提示： 不外出、不聚集、不吃野味， 戴口罩、勤洗手、咳嗽有礼，开窗通风，发热就诊',html)[0]
-            print(done)
-            '''try:
-                res = self.sess.get(self.imgaddress, headers=self.headers)
-                code_get = verify.getcode(res.content)
-                code = code_get.main()
-                if not code :
-                    self.Push('验证码识别失败，请重试')
-                    return
-                else:
-                    self.Push('验证码识别成功，请稍后')
-            except:
-                print('验证码识别失败')'''
+            re.findall('温馨提示： 不外出、不聚集、不吃野味， 戴口罩、勤洗手、咳嗽有礼，开窗通风，发热就诊',html)[0]
         except:
             print('打卡网页获取失败')
             self.Push('打卡网页获取失败')
@@ -163,13 +151,7 @@ class HealthCheckInHelper(ZJULogin):
                                  "message": "Get geolocation success.Convert Success.Get address success.", "location_type": "ip",
                                  "accuracy": "null", "isConverted": "true", "addressComponent": address_component,
                                  "formattedAddress": formatted_address, "roads": [], "crosses": [], "pois": []}
-            #print('打卡地点：', formatted_address)
-            #拿到校验值
-            verify_data = re.findall(r'"([a-z0-9]*?)": "([0-9]*?)","([a-z0-9]*?)":"([a-z0-9]*?)"',html)[0]
-            verify_code = {
-                verify_data[0]:verify_data[1],
-                verify_data[2]:verify_data[3],
-            }
+            print('打卡地点：', formatted_address)
             data = {
                 'sfymqjczrj': '0',
                 'zjdfgj': '',
@@ -261,7 +243,6 @@ class HealthCheckInHelper(ZJULogin):
                 # 👆-----2022.5.19日修改-----👆
                 'internship': '1' # 今日是否进行实习或实践(校内实习:2,校外实习:3,否:1)
             }
-            data.update(verify_code)
             response = self.sess.post('https://healthreport.zju.edu.cn/ncov/wap/default/save', data=data,
                                       headers=self.headers)
             return response.json()
@@ -290,7 +271,6 @@ class HealthCheckInHelper(ZJULogin):
             self.sess.get(self.REDIRECT_URL)
             location = {'info': 'LOCATE_SUCCESS', 'status': 1, 'lng': self.lng, 'lat': self.lat}
             geo_info = self.get_geo_info(location)
-            print(geo_info)
             res = self.take_in(geo_info)
             print(res)
             self.Push(res)
