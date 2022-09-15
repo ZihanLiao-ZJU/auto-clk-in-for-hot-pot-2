@@ -49,10 +49,7 @@ class ZJULogin(object):
         password: (str) 浙大统一认证平台密码
         sess: (requests.Session) 统一的session管理
     """
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
-    }
-
+    
     def __init__(self, delay_run):
         self.username = os.getenv("account")
         self.password = os.getenv("password")
@@ -68,7 +65,11 @@ class ZJULogin(object):
         self.imgaddress = 'https://healthreport.zju.edu.cn/ncov/wap/default/code'
         self.BASE_URL = "https://healthreport.zju.edu.cn/ncov/wap/default/index"
         self.LOGIN_URL = "https://zjuam.zju.edu.cn/cas/login?service=http%3A%2F%2Fservice.zju.edu.cn%2F"
-
+        self.headers = {
+            'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
+        }
+        self.REDIRECT_URL = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex%26from%3Dwap"
+        
     def login(self):
         """Login to ZJU platform"""
         res = self.sess.get(self.LOGIN_URL)
@@ -103,11 +104,6 @@ class ZJULogin(object):
 
 
 class HealthCheckInHelper(ZJULogin):
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Linux; U; Android 11; zh-CN; M2012K11AC Build/RKQ1.200826.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.22.0.36 Mobile Safari/537.36 AliApp(DingTalk/6.0.7.1) com.alibaba.android.rimet.zju/14785964 Channel/1543545060864 language/zh-CN 2ndType/exclusive UT4Aplus/0.2.25 colorScheme/light',
-    }
-
-    REDIRECT_URL = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex%26from%3Dwap"
 
     def get_geo_info(self, location: dict):
         params = (
@@ -124,7 +120,7 @@ class HealthCheckInHelper(ZJULogin):
             ('sdkversion', '1.4.16'),
         )
 
-        response = self.sess.get('https://restapi.amap.com/v3/geocode/regeo', headers=self.headers, params=params, )
+        response = self.sess.get('https://restapi.amap.com/v3/geocode/regeo', headers=self.headers, params=params)
         return take_out_json(response.text)
 
     def take_in(self, geo_info: dict):
