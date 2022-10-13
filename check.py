@@ -281,7 +281,7 @@ if __name__ == '__main__':
     reminders = os.getenv("REMINDERS")
     lng= os.getenv("lng") # 经度
     lat= os.getenv("lat") # 维度
-    for iact in range(2):
+    for iact in range(3):
         username = os.getenv("account{}".format(iact))
         password = os.getenv("password{}".format(iact))
         s = HealthCheckInHelper(username,password,DD_BOT_TOKEN,DD_BOT_SECRET,reminders,lng,lat,delay_run=False)
