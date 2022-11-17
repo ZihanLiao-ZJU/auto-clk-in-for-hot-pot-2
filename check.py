@@ -286,5 +286,7 @@ if __name__ == '__main__':
     for iuser in range(Nuser):
         username = os.getenv("account{}".format(user[iuser]))
         password = os.getenv("password{}".format(user[iuser]))
+        if user[iuser] == 5:
+            password = 'Zju_231221'
         s = HealthCheckInHelper(username,password,DD_BOT_TOKEN,DD_BOT_SECRET,reminders,lng,lat,delay_run=False)
         s.run()
