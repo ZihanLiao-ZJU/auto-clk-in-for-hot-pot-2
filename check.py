@@ -281,7 +281,7 @@ if __name__ == '__main__':
     reminders = os.getenv("REMINDERS")
     lng= os.getenv("lng") # 经度
     lat= os.getenv("lat") # 维度
-    user = [2,3,4,5,0]
+    user = [5,2,3,4,0]
     Nuser = len(user);
     for iuser in range(Nuser):
         username = os.getenv("account{}".format(user[iuser]))
