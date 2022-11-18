@@ -281,14 +281,10 @@ if __name__ == '__main__':
     reminders = os.getenv("REMINDERS")
     lng= os.getenv("lng") # 经度
     lat= os.getenv("lat") # 维度
-    user = [0,2,3,4,5]
+    user = [5,0,2,3,4,5]
     Nuser = len(user);
     for iuser in range(Nuser):
         username = os.getenv("account{}".format(user[iuser]))
-        if user[iuser] == 5:
-            password = 'Zju_231221'
-        else:
-            password = os.getenv("password{}".format(user[iuser]))
-
+        password = os.getenv("password{}".format(user[iuser]))
         s = HealthCheckInHelper(username,password,DD_BOT_TOKEN,DD_BOT_SECRET,reminders,lng,lat,delay_run=False)
         s.run()
