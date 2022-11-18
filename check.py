@@ -282,7 +282,7 @@ if __name__ == '__main__':
     lng= os.getenv("lng") # 经度
     lat= os.getenv("lat") # 维度
     user = [0,2,3,4,5]
-    for iuser in range(Nuser)
+    for iuser in range(Nuser):
         username = os.getenv("account{}".format(user[iuser]))
         password = os.getenv("password{}".format(user[iuser]))
         s = HealthCheckInHelper(username,password,DD_BOT_TOKEN,DD_BOT_SECRET,reminders,lng,lat,delay_run=False)
