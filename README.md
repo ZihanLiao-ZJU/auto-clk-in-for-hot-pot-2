@@ -1,3 +1,3 @@
-# SEE YOU LATER ~
-
-`Chatting Group` :  [Click Here](https://t.me/zjuers) 
+1. TYJ
+2. XDH
+3. DJZ
